@@ -23,10 +23,6 @@ public class ResData {
     }
 
 
-    public static ResData failed(Integer code) {
-        return new ResData(code, ResEnum.FAILED.getMsg(), null);
-    }
-
     public static ResData failed(Integer code, Object data) {
         return new ResData(code, ResEnum.FAILED.getMsg(), data);
     }

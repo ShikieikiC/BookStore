@@ -4,7 +4,6 @@ import com.github.pagehelper.PageInfo;
 import org.shiki.entity.Order;
 import org.shiki.entity.dto.OrderDTO;
 import org.shiki.exception.NoSelectException;
-import org.shiki.service.OrderItemService;
 import org.shiki.service.OrderService;
 import org.shiki.utils.PageData;
 import org.shiki.utils.ResData;
@@ -22,8 +21,6 @@ public class OrderController {
     @Resource
     OrderService orderService;
 
-    @Resource
-    OrderItemService orderItemService;
 
     @RequestMapping("/add")
     public ResData add(@RequestBody OrderDTO order) throws ParseException, InterruptedException {
