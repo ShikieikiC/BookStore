@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.shiki.mapper.ShoppingCartMapper">
+    <insert id="add">
+        insert into shopping_cart
+        values (0, #{buyNum}, #{buyPrice}, #{totalPrice}, #{userId}, now(), 0, #{bookId})
+
+    </insert>
+    <update id="update">
+        update shopping_cart
+        <set>
+            <if test="buyNum != null">
+                buy_num = #{buyNum},
+            </if>
+            <if test="buyPrice != null">
+                buy_price = #{buyPrice},
+            </if>
+            <if test="totalPrice != null">
+                total_price = #{totalPrice},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="updateStatusBatch">
+        update shopping_cart
+        set status = 1
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="queryByUserIdAndBookId" resultType="org.shiki.entity.ShoppingCart">
+        select id, buy_num
+        from shopping_cart
+        where user_id = #{userId}
+          and book_id = #{bookId}
+          and status = 0
+    </select>
+
+    <select id="queryByUserId" resultType="org.shiki.entity.ShoppingCart">
+        select img_src, book.name as book_name, book.price as buy_price, sc.buy_num, sc.total_price, book_id, sc.id
+        from shopping_cart sc,
+             book
+        where user_id = #{userId}
+          and sc.book_id = book.id
+          and sc.status = 0
+    </select>
+
+    <select id="queryByIds" resultType="org.shiki.entity.ShoppingCart">
+        select sc.*, book.name as book_name, price, store_count,img_src
+        from shopping_cart sc
+        left join book on sc.book_id = book.id
+        where sc.status = 0
+        and sc.id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+
+    </select>
+</mapper>

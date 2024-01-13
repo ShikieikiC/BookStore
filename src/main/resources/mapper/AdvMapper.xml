@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.shiki.mapper.AdvMapper">
+    <insert id="add">
+        insert into adv
+        values (0, 'gf.webp', #{title}, #{typeId}, null, null, 1)
+    </insert>
+
+
+    <update id="setPushTime">
+        update adv
+        set start_time = now(),
+            end_time=#{endTime}
+        where id = #{id}
+    </update>
+
+    <update id="setStatus">
+        update adv
+        set status = (status + 1) % 2
+        where id = #{id}
+    </update>
+
+    <update id="update">
+        update adv
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="typeId != null">
+                type_id = #{typeId},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBatch">
+        delete from adv
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="queryAdv" resultType="org.shiki.entity.Adv">
+        select *
+        from adv
+        <where>
+            <if test="typeId != null">
+                and type_id = #{typeId}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="title != null and title!=''">
+                and title like concat('%', #{title}, '%')
+            </if>
+        </where>
+        order by id desc
+    </select>
+</mapper>

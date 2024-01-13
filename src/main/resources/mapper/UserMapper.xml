@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.shiki.mapper.UserMapper">
+    <select id="queryByUsernameAndPassword" resultType="org.shiki.entity.User">
+        select id, nickname, email, mobile
+        from user
+        where username = #{username}
+          and password = #{password}
+          and status = 1
+    </select>
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.shiki.mapper.BookMapper">
+
+    <update id="updateBatch">
+        <foreach collection="books" item="book" separator=";">
+            update book
+            <set>
+                <if test="book.name != null">name = #{book.name},</if>
+                <if test="book.provider != null">provider = #{book.provider},</if>
+                <if test="book.author != null">author = #{book.author},</if>
+                <if test="book.price != null">price = #{book.price},</if>
+                <if test="book.detail != null">detail = #{book.detail},</if>
+                <if test="book.collectionCount != null">collection_count = #{book.collectionCount},</if>
+                <if test="book.storeCount != null">store_count = #{book.storeCount},</if>
+                <if test="book.buyCount != null">buy_count = #{book.buyCount},</if>
+                <if test="book.readCount != null">read_count = #{book.readCount},</if>
+                <if test="book.status != null">`status` = #{book.status},</if>
+            </set>
+            where id = #{book.id}
+        </foreach>
+    </update>
+
+    <update id="updateBatchStoreCount">
+        <foreach collection="shoppingCarts" item="shoppingCart" separator=";">
+            update book
+            set store_count = store_count - #{shoppingCart.buyNum}
+            where id = #{shoppingCart.bookId}
+        </foreach>
+    </update>
+
+    <select id="queryAll" resultType="org.shiki.entity.Book">
+        select id, name, provider, price, img_src
+        from book
+        where status = 2
+    </select>
+
+    <select id="queryById" resultType="org.shiki.entity.Book">
+        select id, name, author, price, img_src, store_count, provider
+        from book
+        where id = #{id}
+    </select>
+</mapper>

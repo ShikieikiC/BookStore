@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.shiki.mapper.ItemMapper">
+    <insert id="add">
+        insert into item
+        values (0, #{name}, #{typeId}, #{brand}, #{price}, #{storeCount}, 0, 'gf.webp', now(), 1)
+    </insert>
+
+    <delete id="deleteBatch">
+        delete from item
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="queryAll" resultType="org.shiki.entity.Item">
+        select *
+        from item
+        <where>
+            <if test="typeId != null">
+                and type_id = #{typeId}
+            </if>
+            <if test="name != null">
+                and name like concat('%', #{name}, '%')
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        <if test="order != null">
+            order by
+            <if test="order == 1">
+                create_time asc
+            </if>
+            <if test="order == 2">
+                create_time desc
+            </if>
+        </if>
+    </select>
+
+    <select id="queryAllType" resultType="org.shiki.entity.ItemType">
+        select *
+        from item_type
+    </select>
+
+
+</mapper>
