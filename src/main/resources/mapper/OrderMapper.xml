@@ -31,4 +31,10 @@
         </if>
         order by create_time desc
     </select>
+
+    <select id="queryByOrderNum" resultType="org.shiki.entity.Order">
+        select order_num, status
+        from `order`
+        where order_num = #{orderNum}
+    </select>
 </mapper>

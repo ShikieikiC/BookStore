@@ -23,4 +23,6 @@ public interface RedisService {
 
     void delete(String key);
 
+    void delete(String bigKey, String key);
+
 }

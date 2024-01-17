@@ -9,6 +9,7 @@ import org.shiki.entity.ShoppingCart;
 import org.shiki.entity.dto.OrderDTO;
 import org.shiki.exception.OutOfStoreException;
 import org.shiki.mapper.OrderMapper;
+import org.shiki.producer.Producer;
 import org.shiki.service.*;
 import org.shiki.utils.PageData;
 import org.shiki.utils.UserContext;
@@ -35,6 +36,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Resource
     AddressService addressService;
+
+    @Resource
+    Producer producer;
 
     @Override
     @Transactional
@@ -80,6 +84,8 @@ public class OrderServiceImpl implements OrderService {
                 shoppingCarts.stream().map(ShoppingCart::getId).toList()
         );
 
+        producer.send(orderNum, "check", 1000 * 3);
+
         return orderNum;
     }
 
@@ -102,6 +108,11 @@ public class OrderServiceImpl implements OrderService {
                 "orderItems", orderItemService.queryOrderItems(orderNum),
                 "address", addressService.queryByOrderNum(orderNum)
         );
+    }
+
+    @Override
+    public Order queryByOrderNum(String orderNum) {
+        return orderMapper.queryByOrderNum(orderNum);
     }
 
 

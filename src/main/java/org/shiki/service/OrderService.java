@@ -16,4 +16,6 @@ public interface OrderService {
     void update(Order order);
 
     Map<String, Object> queryOrderInfo(String orderNum);
+
+    Order queryByOrderNum(String orderNum);
 }

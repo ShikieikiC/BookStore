@@ -32,10 +32,17 @@ public class OrderController {
         return ResData.success(orderNum);
     }
 
+
     @RequestMapping("/queryOrder")
     public ResData queryByUserId(@RequestBody PageData<Order> pageData) throws ParseException {
         PageInfo<Order> orders = orderService.queryOrder(pageData);
         return ResData.success(orders);
+    }
+
+    @RequestMapping("queryByOrderNum")
+    public ResData queryByOrderNum(String orderNum) {
+        Order order = orderService.queryByOrderNum(orderNum);
+        return ResData.success(order);
     }
 
     @RequestMapping("/queryOrderInfo")

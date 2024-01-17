@@ -11,4 +11,6 @@ public interface OrderMapper {
     List<Order> queryOrder(Order order);
 
     void update(Order order);
+
+    Order queryByOrderNum(String orderNum);
 }

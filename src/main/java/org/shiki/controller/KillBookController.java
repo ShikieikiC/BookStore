@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -29,7 +30,7 @@ public class KillBookController {
     }
 
     @RequestMapping("/startKill")
-    public ResData startKill(Integer bookId) {
+    public ResData startKill(Integer bookId) throws ParseException {
         killBookService.startKill(bookId);
         return ResData.success("抢购成功");
     }

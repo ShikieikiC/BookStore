@@ -65,5 +65,10 @@ public class RedisServiceImpl implements RedisService {
         redisTemplate.delete(key);
     }
 
+    @Override
+    public void delete(String bigKey, String key) {
+        redisTemplate.opsForHash().delete(bigKey, key);
+    }
+
 
 }

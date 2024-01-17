@@ -2,6 +2,7 @@ package org.shiki.service;
 
 import org.shiki.entity.KillBook;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface KillBookService {
@@ -9,5 +10,6 @@ public interface KillBookService {
 
     List<KillBook> queryAll();
 
-    void startKill(Integer id);
+    void startKill(Integer id) throws ParseException;
+
 }

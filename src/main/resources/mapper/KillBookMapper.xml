@@ -6,4 +6,10 @@
         values (0, #{bookId}, #{startTime}, #{endTime}, #{killCount}, #{oldPrice},
                 #{newPrice}, #{status}, #{imgSrc}, #{bookName}, #{provider})
     </insert>
+    <update id="update">
+        update kill_book
+        set status=0,
+            kill_count=#{killCount}
+        where book_id = #{bookId}
+    </update>
 </mapper>
