@@ -16,4 +16,9 @@ public class KillOrderServiceImpl implements KillOrderService {
     public void add(KillOrder killOrder) {
         killOrderMapper.add(killOrder);
     }
+
+    @Override
+    public KillOrder queryByOrderNum(String orderNum) {
+        return killOrderMapper.queryByOrderNum(orderNum);
+    }
 }

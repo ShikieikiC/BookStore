@@ -4,4 +4,6 @@ import org.shiki.entity.KillOrder;
 
 public interface KillOrderMapper {
     void add(KillOrder killOrder);
+
+    KillOrder queryByOrderNum(String orderNum);
 }

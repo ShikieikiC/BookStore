@@ -55,7 +55,7 @@ public class KillBookServiceImpl implements KillBookService {
     }
 
     @Override
-    public void startKill(Integer bookId) throws ParseException {
+    public String startKill(Integer bookId) throws ParseException {
         try {
             rLock = redisson.getLock("kill_book" + bookId + "_lock");
             if (rLock.tryLock()) {
@@ -71,10 +71,12 @@ public class KillBookServiceImpl implements KillBookService {
                 KillOrder killOrder = new KillOrder();
                 killOrder.setBookId(bookId);
                 killOrder.setPrice(killBook.getNewPrice());
-                killOrder.setKillOrderNum(String.valueOf(new SnowflakeGenerator().next()));
+                String killOrderNum = String.valueOf(new SnowflakeGenerator().next());
+                killOrder.setKillOrderNum(killOrderNum);
                 killOrder.setUserId(UserContext.getUserId());
 
                 producer.send(killOrder, "addKillOrder", 0);
+                return killOrderNum;
             }
 
         } finally {
@@ -82,6 +84,7 @@ public class KillBookServiceImpl implements KillBookService {
                 rLock.unlock();
             }
         }
+        return null;
     }
 
 

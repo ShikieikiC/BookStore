@@ -17,6 +17,7 @@ public class KillBookController {
     @Resource
     KillBookService killBookService;
 
+
     @RequestMapping("/add")
     public ResData add(@RequestBody KillBook killBook) {
         killBookService.add(killBook);
@@ -31,8 +32,8 @@ public class KillBookController {
 
     @RequestMapping("/startKill")
     public ResData startKill(Integer bookId) throws ParseException {
-        killBookService.startKill(bookId);
-        return ResData.success("抢购成功");
+        String orderNum = killBookService.startKill(bookId);
+        return ResData.success(orderNum);
     }
 
 

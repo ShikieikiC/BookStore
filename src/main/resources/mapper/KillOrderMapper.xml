@@ -5,4 +5,9 @@
         insert into kill_order
         values (#{killOrderNum}, #{userId}, #{addressId}, #{price}, 1, now(), 1, #{bookId})
     </insert>
+    <select id="queryByOrderNum" resultType="org.shiki.entity.KillOrder">
+        select *
+        from kill_order
+        where kill_order_num = #{orderNum}
+    </select>
 </mapper>

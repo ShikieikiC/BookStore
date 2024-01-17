@@ -25,4 +25,6 @@ public interface RedisService {
 
     void delete(String bigKey, String key);
 
+
+    Boolean setValueAbsent(String key, Object value);
 }

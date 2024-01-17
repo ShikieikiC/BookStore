@@ -1,5 +1,6 @@
 package org.shiki.config;
 
+import org.shiki.utils.Constant;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.CustomExchange;
@@ -19,6 +20,11 @@ public class RabbitmqConfig {
     }
 
     @Bean
+    public Queue checkFoodOrderQueue() {
+        return new Queue("checkFoodOrder");
+    }
+
+    @Bean
     public Queue addKillBookQueue() {
         return new Queue("addKill");
     }
@@ -34,14 +40,24 @@ public class RabbitmqConfig {
     }
 
     @Bean
+    public Queue addFoodOrderQueue() {
+        return new Queue("addFoodOrder");
+    }
+
+    @Bean
     public CustomExchange delayExchange() {
         Map<String, Object> map = new HashMap<>();
         map.put("x-delayed-type", "direct");
-        return new CustomExchange("delayExchange", "x-delayed-message", true, false, map);
+        return new CustomExchange(Constant.DELAY_EXCHANGE, "x-delayed-message", true, false, map);
     }
 
     @Bean
     public Binding bindingCheck() {
+        return BindingBuilder.bind(checkFoodOrderQueue()).to(delayExchange()).with("checkFoodOrder").noargs();
+    }
+
+    @Bean
+    public Binding bindingCheckFoodOrder() {
         return BindingBuilder.bind(checkOrderQueue()).to(delayExchange()).with("check").noargs();
     }
 
@@ -59,5 +75,11 @@ public class RabbitmqConfig {
     public Binding bindingAddKillOrder() {
         return BindingBuilder.bind(addKillOrderQueue()).to(delayExchange()).with("addKillOrder").noargs();
     }
+
+    @Bean
+    public Binding bindingAddFoodOrder() {
+        return BindingBuilder.bind(addFoodOrderQueue()).to(delayExchange()).with("addFoodOrder").noargs();
+    }
+
 
 }

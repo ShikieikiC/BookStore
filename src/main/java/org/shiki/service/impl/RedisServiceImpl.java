@@ -70,5 +70,10 @@ public class RedisServiceImpl implements RedisService {
         redisTemplate.opsForHash().delete(bigKey, key);
     }
 
+    @Override
+    public Boolean setValueAbsent(String key, Object value) {
+        return redisTemplate.opsForValue().setIfAbsent(key, value, RandomUtil.randomInt(10, 20), TimeUnit.MINUTES);
+    }
+
 
 }

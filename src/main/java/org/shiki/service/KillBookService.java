@@ -10,6 +10,6 @@ public interface KillBookService {
 
     List<KillBook> queryAll();
 
-    void startKill(Integer id) throws ParseException;
+    String startKill(Integer id) throws ParseException;
 
 }
